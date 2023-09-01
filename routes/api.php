@@ -55,8 +55,12 @@ Route::group(['prefix' => 'formulario'], function () {
 });
 
 Route::group(['prefix' => 'contraparte'], function () {
+    Route::get('index_representante/{id_formulario}', [ContrapartesController::class, 'index_representante']);
+    Route::get('index_contacto/{id_formulario}', [ContrapartesController::class, 'index_contacto']);
     Route::get('index_accionista/{id_formulario}', [ContrapartesController::class, 'index_accionista']);
     Route::get('index_junta_directiva/{id_formulario}', [ContrapartesController::class, 'index_junta_directiva']);
+    Route::post('register_representante', [ContrapartesController::class, 'register_representante']);
+    Route::post('register_contacto', [ContrapartesController::class, 'register_contacto']);
     Route::post('register_accionista', [ContrapartesController::class, 'register_accionista']);
     Route::post('register_junta_directiva', [ContrapartesController::class, 'register_junta_directiva']);
     Route::post('register_empresas', [ContrapartesController::class, 'register_empresas']);

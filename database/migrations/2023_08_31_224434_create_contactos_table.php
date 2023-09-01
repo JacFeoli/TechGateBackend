@@ -15,6 +15,7 @@ class CreateContactosTable extends Migration
     {
         Schema::create('contactos', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_formulario');
             $table->tinyInteger("tipo_contacto");
             $table->string('nombre', 100);
             $table->string('apellido', 100);
