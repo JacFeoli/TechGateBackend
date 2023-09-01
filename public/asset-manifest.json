@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9c086c96.css",
+    "main.js": "/static/js/main.d238bacd.js",
+    "static/js/787.3a4127d3.chunk.js": "/static/js/787.3a4127d3.chunk.js",
+    "static/media/Technology_Login.jpg": "/static/media/Technology_Login.1d03bf5d55e438d4ccbd.jpg",
+    "static/media/Cabin.ttf": "/static/media/Cabin.6b2ccb2fbe0b49bfbeb8.ttf",
+    "static/media/TechgateSolo.svg": "/static/media/TechgateSolo.a35c505bbf07efa08cbfb230a0abe406.svg",
+    "static/media/TechgateHorizontal.svg": "/static/media/TechgateHorizontal.702bcad32db136499637d1284e2e7412.svg",
+    "index.html": "/index.html",
+    "main.9c086c96.css.map": "/static/css/main.9c086c96.css.map",
+    "main.d238bacd.js.map": "/static/js/main.d238bacd.js.map",
+    "787.3a4127d3.chunk.js.map": "/static/js/787.3a4127d3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9c086c96.css",
+    "static/js/main.d238bacd.js"
+  ]
+}
