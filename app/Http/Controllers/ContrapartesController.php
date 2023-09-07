@@ -2,17 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Accionistas;
 use App\Models\Contactos;
+use App\Models\Representantes;
+use App\Models\Beneficiarios_ESAL;
+use App\Models\Representantes_ESAL;
 use App\Models\Empresas;
+use App\Models\Accionistas;
+use App\Models\JuntaDirectiva;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\JuntaDirectiva;
-use App\Models\Representantes;
 use Illuminate\Support\Facades\DB;
 
 class ContrapartesController extends Controller
 {
+    public function index_contacto($id_formulario)
+    {
+        $resultado = Contactos::join("formularios", "contactos.id_formulario", "=", "formularios.id")
+            ->where("contactos.id_formulario", $id_formulario)
+            ->select("contactos.*")
+            ->get();
+        return ["data" => $resultado];
+    }
     public function index_representante($id_formulario)
     {
         $resultado = Representantes::join("formularios", "representantes.id_formulario", "=", "formularios.id")
@@ -21,11 +31,19 @@ class ContrapartesController extends Controller
             ->get();
         return ["data" => $resultado];
     }
-    public function index_contacto($id_formulario)
+    public function index_beneficiario_esal($id_formulario)
     {
-        $resultado = Contactos::join("formularios", "contactos.id_formulario", "=", "formularios.id")
-            ->where("contactos.id_formulario", $id_formulario)
-            ->select("contactos.*")
+        $resultado = Beneficiarios_ESAL::join("formularios", "beneficiarios_esal.id_formulario", "=", "formularios.id")
+            ->where("beneficiarios_esal.id_formulario", $id_formulario)
+            ->select("beneficiarios_esal.*")
+            ->get();
+        return ["data" => $resultado];
+    }
+    public function index_representante_esal($id_formulario)
+    {
+        $resultado = Representantes_ESAL::join("formularios", "representantes_esal.id_formulario", "=", "formularios.id")
+            ->where("representantes_esal.id_formulario", $id_formulario)
+            ->select("representantes_esal.*")
             ->get();
         return ["data" => $resultado];
     }
@@ -45,6 +63,23 @@ class ContrapartesController extends Controller
             ->get();
         return ["data" => $resultado];
     }
+    public function register_contacto()
+    {
+        $result = new Contactos();
+        $result->id_formulario = request()->id_formulario;
+        $result->tipo_contacto = request()->tipo_contacto_c;
+        $result->nombre = strtoupper(request()->nombre_contacto_c);
+        $result->apellido = strtoupper(request()->apellido_contacto_c);
+        $result->cargo = strtoupper(request()->cargo_contacto_c);
+        $result->email = request()->correo_electronico_c;
+        $result->telefono = request()->telefono_c;
+        $result->telefono_movil = request()->telefono_movil_c;
+        if ($result->save()) {
+            return ["msj" => "Se ha registrado con exito", "id" => $result->id, "Status" => true];
+        } else {
+            return ["msj" => "Ocurrio un error"];
+        }
+    }
     public function register_representante()
     {
         $result = new Representantes();
@@ -62,17 +97,30 @@ class ContrapartesController extends Controller
             return ["msj" => "Ocurrio un error"];
         }
     }
-    public function register_contacto()
+    public function register_beneficiario_esal()
     {
-        $result = new Contactos();
+        $result = new Beneficiarios_ESAL();
         $result->id_formulario = request()->id_formulario;
-        $result->tipo_contacto = request()->tipo_contacto_c;
-        $result->nombre = strtoupper(request()->nombre_contacto_c);
-        $result->apellido = strtoupper(request()->apellido_contacto_c);
-        $result->cargo = strtoupper(request()->cargo_contacto_c);
-        $result->email = request()->correo_electronico_c;
-        $result->telefono = request()->telefono_c;
-        $result->telefono_movil = request()->telefono_movil_c;
+        $result->banco = request()->banco_beneficiario_esal;
+        $result->tipo_cuenta = request()->tipo_cuenta_beneficiario_esal;
+        $result->numero_cuenta = strtoupper(request()->numero_cuenta_beneficiario_esal);
+        $result->nombre = strtoupper(request()->beneficiario_esal);
+        $result->tipo_identificacion = request()->tipo_documento_beneficiario_esal;
+        $result->identificacion = request()->numero_documento_beneficiario_esal;
+        if ($result->save()) {
+            return ["msj" => "Se ha registrado con exito", "id" => $result->id, "Status" => true];
+        } else {
+            return ["msj" => "Ocurrio un error"];
+        }
+    }
+    public function register_representante_esal()
+    {
+        $result = new Representantes_ESAL();
+        $result->id_formulario = request()->id_formulario;
+        $result->tipo_relcion = request()->tipo_relacion_representante_esal;
+        $result->nombre = strtoupper(request()->representante_esal);
+        $result->tipo_identificacion = request()->tipo_documento_representante_esal;
+        $result->identificacion = request()->numero_documento_representante_esal;
         if ($result->save()) {
             return ["msj" => "Se ha registrado con exito", "id" => $result->id, "Status" => true];
         } else {
@@ -115,6 +163,42 @@ class ContrapartesController extends Controller
         $result->nit = request()->nit;
         if ($result->save()) {
             return ["msj" => "Se ha registrado con exito", "id" => $result->id, "Status" => true];
+        } else {
+            return ["msj" => "Ocurrio un error"];
+        }
+    }
+    public function delete_contacto($id)
+    {
+        $result = Contactos::find($id);
+        if ($result->delete()) {
+            return ["msj" => "Se ha eliminado con exito", "id" => $id, "Status" => true];
+        } else {
+            return ["msj" => "Ocurrio un error"];
+        }
+    }
+    public function delete_representante($id)
+    {
+        $result = Representantes::find($id);
+        if ($result->delete()) {
+            return ["msj" => "Se ha eliminado con exito", "id" => $id, "Status" => true];
+        } else {
+            return ["msj" => "Ocurrio un error"];
+        }
+    }
+    public function delete_beneficiario_esal($id)
+    {
+        $result = Beneficiarios_ESAL::find($id);
+        if ($result->delete()) {
+            return ["msj" => "Se ha eliminado con exito", "id" => $id, "Status" => true];
+        } else {
+            return ["msj" => "Ocurrio un error"];
+        }
+    }
+    public function delete_representante_esal($id)
+    {
+        $result = Representantes_ESAL::find($id);
+        if ($result->delete()) {
+            return ["msj" => "Se ha eliminado con exito", "id" => $id, "Status" => true];
         } else {
             return ["msj" => "Ocurrio un error"];
         }
