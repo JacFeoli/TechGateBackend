@@ -23,6 +23,9 @@ class CreateRepresentantesTable extends Migration
             $table->string('digito_verificacion', 5);
             $table->double('capital');
             $table->tinyInteger('pep');
+            $table->string('tipo_relacion_pep', 100);
+            $table->string('identificacion_pep', 20);
+            $table->text('declaracion_veracidad_pep');
             $table->timestamps();
         });
     }

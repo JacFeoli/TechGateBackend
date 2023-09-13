@@ -91,6 +91,15 @@ class ContrapartesController extends Controller
         $result->digito_verificacion = request()->digito_verificacion_r;
         $result->capital = request()->capital_representante_r;
         $result->pep = request()->pep_r;
+        if ($result()->pep_r) {
+            $result->tipo_relacion_pep = request()->tipo_relacion_pep_r;
+            $result->identificacion_pep = request()->documento_pep_r;
+            $result->declaracion_veracidad_pep = request()->declaracion_veracidad_pep_r;
+        } else {
+            $result->tipo_relacion_pep = '';
+            $result->identificacion_pep = '';
+            $result->declaracion_veracidad_pep = '';
+        }
         if ($result->save()) {
             return ["msj" => "Se ha registrado con exito", "id" => $result->id, "Status" => true];
         } else {
