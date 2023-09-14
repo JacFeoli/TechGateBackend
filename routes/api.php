@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContrapartesController;
 use App\Http\Controllers\FormulariosController;
 use App\Http\Controllers\RolesController;
@@ -23,9 +24,17 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Route::post('register', 'App\Http\Controllers\UserController@register');
-Route::post('login', 'App\Http\Controllers\UserController@authenticate');
-Route::group(['middleware' => ['jwt.verify']], function() {
-    Route::post('user','App\Http\Controllers\UserController@getAuthenticatedUser');
+// Route::post('login', 'App\Http\Controllers\UserController@authenticate');
+// Route::group(['middleware' => ['jwt.verify']], function() {
+//     Route::post('user','App\Http\Controllers\UserController@getAuthenticatedUser');
+// });
+
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
 });
 
 Route::group(['prefix' => 'usuario'], function () {
