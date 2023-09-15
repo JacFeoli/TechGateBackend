@@ -30,7 +30,11 @@ class FormulariosController extends Controller
         $result->id_empresa = 1;
         $result->id_usuario = request()->id_usuario;
         $result->tipo_tercero = request()->tipo_tercero;
-        $result->tipo_sociedad = request()->tipo_sociedad;
+        if (request()->tipo_sociedad !== '') {
+            $result->tipo_sociedad = request()->tipo_sociedad;
+        } else {
+            $result->tipo_sociedad = "0";
+        }
         $result->primera_vez = 1;
         $result->estado = 1;
         if ($result->save()) {
